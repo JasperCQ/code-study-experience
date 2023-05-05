@@ -2,7 +2,7 @@
 
 
  
- **学习时长**
+ **学习时长：1h**
  
  
  
@@ -81,11 +81,70 @@ class MyQueue {
 ## 225. 用队列实现栈 难度：简单
 
 
-### 第一想法
+### 第一想法：
+
+第一想法也是想用类似栈模拟队列的方式，但是发现不行。看了题解后，写了。
+~~~
+class MyStack {
+    private Deque<Integer> queue1;
+    private Deque<Integer> queue2;
+
+    public MyStack() {
+        this.queue1= new ArrayDeque<>();
+        this.queue2= new ArrayDeque<>();
+    }
+
+    public void push(int x) {
+        this.queue1.addLast(x);
+    }
+
+    public int pop() {
+        while(this.queue1.size()>1){
+            this.queue2.addLast(this.queue1.pollFirst());
+        }
+        int res = this.queue1.pollFirst();
+        this.queue1=this.queue2;
+        this.queue2=new ArrayDeque<Integer>();
+        return res;
+    }
+
+    public int top() {
+        while(this.queue1.size()>1){
+            this.queue2.addLast(this.queue1.pollFirst());
+        }
+        int res = this.queue1.pollFirst();
+        this.queue2.addLast(res);
+        this.queue1=this.queue2;
+        this.queue2=new ArrayDeque<Integer>();
+        return res;
+    }
+
+    public boolean empty() {
+        if (this.queue1.size()==0){
+            return true;
+        }
+        else
+            return false;
+    }
+}
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack obj = new MyStack();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.top();
+ * boolean param_4 = obj.empty();
+ */
+
+~~~
 
 ### 题解
 
 ### 困难
+
+主要也是在于对于Deque 这个接口的方法不熟
+
 
 
 
