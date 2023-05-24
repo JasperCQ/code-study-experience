@@ -2,7 +2,7 @@
 
 
  
- **学习时长**
+ **学习时长：可能2h？因为分开做的记不清了**
  
 ## 20. 有效的括号 难度：简单
 
@@ -10,6 +10,10 @@
 ### 第一想法: 
 
 第一想法就是利用栈，因为明显最后出现的左括号要与最先出现的右括号进行匹配
+
+
+
+### 题解
 
 ~~~
 class Solution {
@@ -45,8 +49,6 @@ class Solution {
 
 ~~~
 
-
-### 题解
 
 ### 困难:
 
@@ -104,11 +106,47 @@ class Solution {
 
 
  
-## 题目名字 难度：
+## 150、逆波兰表达式求值 难度：中等
 
 
-### 第一想法
+### 第一想法:
 
-### 题解
+因为好久没写了，现在回来补，不过看了一些逆波兰的解释，大概就知道是用栈来做，然后找了下规律，应该是遇到运算符前两个数出栈运算，结果再入栈。
 
-### 困难
+### 题解：
+
+~~~
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        HashMap<String,BinaryOperator<Integer>> ops = new HashMap<>();
+        ops.put("+",(x,y)->x+y);
+        ops.put("-",(x,y)->x-y);
+        ops.put("*",(x,y)->x*y);
+        ops.put("/",(x,y)->x/y);
+        ArrayDeque<String> stack= new ArrayDeque<>();
+        if(tokens.length==1)
+            return Integer.valueOf(tokens[0]).intValue();
+        for(int i =0 ;i<tokens.length;i++){
+            if(ops.containsKey(tokens[i])){
+                 int num1=Integer.valueOf(stack.pop()).intValue();
+                 int num2=Integer.valueOf(stack.pop()).intValue();
+                 Integer temp = ops.get(tokens[i]).apply(num2,num1);
+                 stack.push(temp.toString());
+            }
+            else{
+                stack.push(tokens[i]);
+                }
+        }
+
+        return Integer.valueOf(stack.pop()).intValue();
+
+    }
+}
+
+~~~
+
+### 困难：
+
+我做的时候，因为我觉得用一个value为lambda表达式的hashmap来做是最方便的。但是因为之前也没写过类似的，所以再写的时候用到了一些自己之前也没用过的方法，都是在google 和 gpt 的帮助下。
+
