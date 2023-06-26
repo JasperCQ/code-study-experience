@@ -55,3 +55,92 @@ public boolean isBalanced(TreeNode root) {
 ~~~
 
 ### 困难
+
+
+
+
+## 257. 二叉树的所有路径 难度：简单
+
+
+### 第一想法:
+
+回溯方法，但是好像不需要撤销选择，所以就是一个深度遍历就行。
+
+
+### 题解：
+
+~~~
+class Solution {
+    private List<String> res=new ArrayList<>();
+    public List<String> binaryTreePaths(TreeNode root) {
+        StringBuffer start = new StringBuffer(String.valueOf(root.val));
+        if(root.left==null && root.right==null){
+            this.res.add(start.toString());
+            return this.res;
+        }
+        if(root.left!=null)
+            this.traverse(start,root.left);
+        if(root.right!=null)
+            this.traverse(start,root.right);
+        return this.res;
+    }
+
+    public void traverse(StringBuffer path,TreeNode root){
+        StringBuffer path_next = new StringBuffer();
+        path_next.append(path);
+        path_next.append("->");
+        path_next.append(root.val);
+        if(root.left==null && root.right==null){
+            this.res.add(path_next.toString());
+        }
+
+        if(root.left!=null){
+            this.traverse(path_next,root.left);
+        }
+        if(root.right!=null){
+            this.traverse(path_next,root.right);
+        }
+    }
+}
+
+~~~
+
+
+### 困难
+
+
+
+## 404. 左叶子之和 难度：简单
+
+
+### 第一想法:
+
+就是dfs 加一个tag表明当前遍历的节点是左还是右节点 就可以了
+
+
+### 题解：
+
+~~~
+
+class Solution {
+    private int sum = 0;
+    public int sumOfLeftLeaves(TreeNode root) {
+        this.dfs(root,2);
+        return this.sum;
+    }
+    public void dfs (TreeNode root, int tag){
+        if(root == null)
+            return;
+        if(tag==1 && root.left==null && root.right == null){
+            this.sum+=root.val;
+            return;
+        }
+        this.dfs(root.left,1);
+        this.dfs(root.right,2);
+        
+    }
+}
+~~~
+
+
+### 困难
