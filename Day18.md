@@ -94,6 +94,88 @@ class Solution {
 
 跟上一题很像，需要改一些返回值，遍历方式之类的
 
-### 题解
+### 题解：
 
-### 困难
+~~~
+class Solution {
+    private List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        if(root==null)
+            return this.res;
+        List<Integer> start = new ArrayList<>();
+        start.add(root.val);
+        traverse(root,targetSum,start);
+        return this.res;
+    }
+
+
+    public void traverse(TreeNode root, int target, List<Integer> path){
+        if(root.left == null && root.right == null){
+            if(root.val == target)
+                this.res.add(new ArrayList<>(path));
+            else
+                return;
+
+        }
+        if(root.left!=null) {
+            path.add(root.left.val);
+            traverse(root.left, target - root.val, path);
+            path.remove(path.size()-1);
+        }
+        if(root.right!=null) {
+            path.add(root.right.val);
+            traverse(root.right, target - root.val, path);
+            path.remove(path.size()-1);
+        }
+    }
+}
+
+
+
+~~~
+
+### 困难：
+
+关键可能在于一个是add要注意add一个深拷贝的列表，一个是回溯需要撤销选择。
+
+
+
+
+## 105. 从前序与中序遍历序列构造二叉树 难度：中等
+
+
+### 第一想法：
+
+这题之前做过，其实大概有想法知道怎么做。
+
+
+### 题解：
+
+~~~
+
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder.length<=0)
+            return null;
+        int rootVal = preorder[0];
+        TreeNode root = new TreeNode(rootVal);
+        int rootIndex = 0;
+        for ( int i = 0; i< inorder.length;i++){
+            if (inorder[i]== rootVal){
+                rootIndex = i;
+                break;
+            }
+        }
+        root.left = buildTree(Arrays.copyOfRange(preorder,1,rootIndex+1),Arrays.copyOfRange(inorder,0,rootIndex));
+        root.right = buildTree(Arrays.copyOfRange(preorder,rootIndex+1,inorder.length),Arrays.copyOfRange(inorder,rootIndex+1,preorder.length));
+        return root;
+    }
+}
+~~~
+
+### 困难：
+
+做的不熟练，二是，居然最开始中序和前序记反了
+
+
+
