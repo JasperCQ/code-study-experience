@@ -42,20 +42,54 @@ class Solution {
 
 
 
-##  难度：
+## 40. 组合总和 II 难度：中等
 
 
 ### 第一想法:
+
+最开始看的时候，还没意识到这个元素重，但不能复选的组合题目的特殊处，但是看了示例，感觉是需要排序的。
+果然是需要排序后，进行剪枝，这个剪枝的if其实还不是特别直接。
 
 
 
 ### 题解:
 
+~~~
 
-##  难度：
+class Solution {
+    private List<List<Integer>> result = new ArrayList<>();
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        backtrack(0,target,candidates,new ArrayList<>());
+
+        return this.result;
+    }
+
+    public void backtrack(int start,int target,int[] candidates,ArrayList<Integer> path){
+        if(target<0)
+            return;
+        if(target==0){
+            this.result.add(new ArrayList<>(path));
+        }
+        for(int i = start;i<candidates.length;i++){
+            if(i>start && candidates[i]==candidates[i-1])
+                continue;
+            path.add(candidates[i]);
+            backtrack(i+1,target-candidates[i],candidates,path);
+            path.remove(path.size()-1);
+        }
+
+    }
+}
+~~~
+
+
+##   131.分割回文串  难度：中等
 
 
 ### 第一想法:
+
+
 
 
 
