@@ -89,10 +89,55 @@ class Solution {
 
 ### 第一想法:
 
-
+第一下看这个题没有跟前面的组合问题联系起来，但是其实只要画出回溯树，就能看出来本质没变。
 
 
 
 ### 题解:
+提交完发现，时间比较慢，看了官方题解，发现在判断回文子串这部分存在很多重复计算，可以通过dp算法或者是记忆化搜索来提前规范哪些是回文子串，不然的话直接使用双指针在循环中会存在重复计算。
+
+~~~
+class Solution {
+    private List<List<String>> result = new ArrayList<>();
+    public List<List<String>> partition(String s) {
+        backtrack(new StringBuilder(s),new ArrayList<>());
+        return this.result;
+    }
+
+    public void backtrack(StringBuilder sb, List<String> path){
+        if(sb.length()==0)
+            this.result.add(new ArrayList<>(path));
+
+
+        for(int i = 0; i<sb.length();i++){
+            String temp = sb.substring(0,i+1);
+            if(isPalindrome(temp)) {
+                path.add(temp);
+                backtrack(new StringBuilder(sb.substring(i+1,sb.length())),path);
+                path.remove(path.size()-1);
+            }
+            
+            
+        }
+
+
+    }
+
+    public boolean isPalindrome(String s){
+
+        int left = 0;
+        int right = s.length()-1;
+        while(left<right){
+            if(s.charAt(left)!=s.charAt(right))
+                return false;
+            left++;
+            right--;
+        }
+        return true;
+
+    }
+}
+
+~~~
 
 
