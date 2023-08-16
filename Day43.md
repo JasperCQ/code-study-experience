@@ -57,14 +57,44 @@ class Solution {
 
 ~~~
 
-##  难度：
+## 494. 目标和 难度：中等
 
 
 ### 第一想法:
 
+第一时间想直接DP，发现存在负数问题，所以其实是需要变换的，变换之后就变成经典的416号的问题了。
+
 
 
 ### 题解:
+~~~
+public int findTargetSumWays(int[] nums, int target) {
+        int length = nums.length;
+
+        int sum = Arrays.stream(nums).sum();
+        if((sum-target)%2!=0 || sum<target)
+            return 0;
+
+        int new_target = (sum-target)/2;
+        int[][] dp = new int[length+1][new_target+1];
+            
+        dp[0][0]=1;
+
+        for(int i=1;i<length+1;i++){
+            for(int j=0;j<new_target+1;j++){
+                if(j>=nums[i-1])
+                    dp[i][j]=dp[i-1][j]+dp[i-1][j-nums[i-1]];
+                else
+                    dp[i][j]=dp[i-1][j];
+            }
+        }
+        return dp[length][new_target];
+    }
+
+~~~
+
+
+
 
 
 ##  难度：
