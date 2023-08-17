@@ -97,13 +97,45 @@ public int findTargetSumWays(int[] nums, int target) {
 
 
 
-##  难度：
+## 474. 一和零 难度：中等
 
 
 ### 第一想法:
-
+就是一个三维dp问题
 
 
 ### 题解:
+~~~
+class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        int length =  strs.length;
+        int[][][] dp = new int[m+1][n+1][length+1];
 
+        for(int i=0;i<m+1;i++){
+            for(int j=0;j<n+1;j++){
+                for(int k=1;k<length+1;k++){
+                    int count_0=0;
+                    int count_1=0;
+                    for(int index=0;index<strs[k-1].length();index++){
+                        if(strs[k-1].charAt(index)=='1')
+                            count_1++;
+                        else
+                            count_0++;
+                    }
+                    
+                    if(i>=count_0 && j>=count_1)
+                        dp[i][j][k] = Math.max(dp[i-count_0][j-count_1][k-1]+1,dp[i][j][k-1]);
+                    else
+                        dp[i][j][k] = dp[i][j][k-1];
+
+
+                }
+            }
+        }
+        
+        return dp[m][n][length];
+    }
+}
+
+~~~
 
